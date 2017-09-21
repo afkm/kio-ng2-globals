@@ -10,7 +10,15 @@
     "experimentalDecorators": true,
     "lib": ["es2015", "dom"],
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "paths": {
+      "@angular/*": [
+        "../node_modules/@angular/*"
+      ],
+      "rxjs": [
+        "../node_modules/rxjs/*"
+      ]
+    }    
   },
 
   "files": [
