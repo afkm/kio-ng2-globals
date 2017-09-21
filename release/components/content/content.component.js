@@ -20,6 +20,7 @@ var GlobalsComponent = (function (_super) {
 export { GlobalsComponent };
 GlobalsComponent.decorators = [
     { type: Component, args: [{
+                moduleId: module.id,
                 selector: 'kio-globals',
                 templateUrl: './content.component.html'
             },] },

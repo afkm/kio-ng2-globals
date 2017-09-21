@@ -3,6 +3,7 @@ import { AbstractGlobalsComponent } from '../abstract/abstract.component'
 import { GlobalsConfig, GlobalsMapping } from '../../interfaces/GlobalsConfig'
 
 @Component({
+  moduleId: module.id,
   selector: 'kio-globals',
   templateUrl: './content.component.html'
 })
