@@ -13,12 +13,24 @@ DEPLOY_ROOT="${_ROOT}/release"
 
 MODULE_NAME="$(basename "${_ROOT}")"
 
+function copy_build () {
+  if [[ -d "${BUILD_ROOT}" ]]; then
+    rm -rf "${BUILD_ROOT}"
+  fi  
+  echo "copy ${SRC_ROOT} to ${BUILD_ROOT}"
+  scp -r "${SRC_ROOT}" "${BUILD_ROOT}"
+}
 
-function build() {
+function build () {
+  
+  if [[ ! -d "${BUILD_ROOT}" ]]; then
+    copy_build
+  fi
+
+  echo "compile ${BUILD_ROOT}"  
   cd "${_ROOT}"
-  rm -rf ./build
-  scp -r ./src ./build
   "${NGC_BIN}" -p tsconfig-ngc.json  
+
 }
 
 function list_ts () {
@@ -64,8 +76,12 @@ function copy_release () {
 
 
 case ${1} in
+  "copy_build" )
+    copy_build
+    ;;  
+
   "build" )
-    build && clean_build && deploy
+    build && deploy
     ;;
 
   "clean" )

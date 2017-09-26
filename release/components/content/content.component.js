@@ -22,7 +22,7 @@ GlobalsComponent.decorators = [
     { type: Component, args: [{
                 moduleId: module.id,
                 selector: 'kio-globals',
-                templateUrl: 'content.component.html'
+                templateUrl: './content.component.html'
             },] },
 ];
 /** @nocollapse */
