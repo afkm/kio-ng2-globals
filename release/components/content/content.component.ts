@@ -5,7 +5,7 @@ import { GlobalsConfig, GlobalsMapping } from '../../interfaces/GlobalsConfig'
 @Component({
   moduleId: module.id,
   selector: 'kio-globals',
-  templateUrl: './content.component.html'
+  templateUrl: 'content.component.html'
 })
 export class GlobalsComponent extends AbstractGlobalsComponent<GlobalsMapping> implements OnChanges {
   
