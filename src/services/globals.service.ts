@@ -36,6 +36,7 @@ export class GlobalsService {
       }
       return this.backendService.load({
         cuid, 
+        headers: true,
         cmd: 'get',
         role: 'pub'
       })
