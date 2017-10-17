@@ -1,6 +1,6 @@
 import { Inject, OnDestroy, Input, SimpleChanges, SimpleChange } from '@angular/core'
 import { GlobalsService } from '../../services/globals.service'
-import { GlobalsConfig, GlobalsMapping } from '../../interfaces/GlobalsConfig'
+import { GlobalsConfig, GlobalsMapping } from '../../interfaces/globals-config'
 import { KioPublicationModel } from 'kio-ng2-data'
 import { LocaleService } from 'kio-ng2-i18n'
 

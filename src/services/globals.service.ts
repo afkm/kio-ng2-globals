@@ -1,10 +1,14 @@
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/of'
-import { Injectable, Inject } from '@angular/core'
+import { Injectable, EventEmitter, Inject } from '@angular/core'
 import { BackendService } from 'kio-ng2-ctn'
 import { KioPublicationModel, KioPublicationQuery } from 'kio-ng2-data'
-import { GlobalsConfig, GlobalsMapping } from '../interfaces/GlobalsConfig'
-import { GLOBALS_CONFIG } from '../injection/GlobalsConfig.token'
+import { GlobalsConfig, GlobalsMapping } from '../interfaces/globals-config'
+import { ViewStateChange } from '../interfaces/view-state-change'
+import { GLOBALS_CONFIG } from '../injection/globals-config.token'
+
+import { ViewState } from '../enums/view-state.enum'
+
 
 const DELAY_OFFSET = 3000
 const DELAY_STEP = 500
@@ -15,13 +19,29 @@ export class GlobalsService {
   constructor(
       @Inject(GLOBALS_CONFIG) protected config:GlobalsConfig<GlobalsMapping>,
       protected backendService:BackendService
-    ){}
+    ){
+    if ( 'number' === typeof config.initialDelay ) {
+      this._resolveDelay = config.initialDelay
+    } else {
+      this._resolveDelay = DELAY_OFFSET
+    }
+  }
 
+  private _resolveDelay:number
+
+  private _viewStateEmitter:EventEmitter<ViewStateChange>=new EventEmitter()
+
+  /**
+   * @brief      returns an observable of the publication's cuid to be loaded for $key
+   *
+   * @param      key   The key identifier of the globals section
+   *
+   * @return     observable of cuid
+   */
   public resolveGlobalsCuidWithKey ( key:string ):Observable<string> {
     return Observable.of(this.config.mapping[key])
   }
 
-  private _resolveDelay:number=DELAY_OFFSET
 
   public resolveGlobalsWithKey ( key:string ):Observable<KioPublicationModel> {
     this._resolveDelay += DELAY_STEP
@@ -46,6 +66,41 @@ export class GlobalsService {
     } )    
   }
 
-  private _globalsData:Map<string,KioPublicationModel>=new Map()
+
+  public hide ( ...keys:string[] ):void {
+  
+    if ( keys.length === 0 ) {
+      return this.hide ( ...Object.keys(this.config.mapping) )
+    } else {
+      keys.forEach ( key => this.updateGlobalsViewState ( key, ViewState.hidden ) )
+    }
+
+  }
+
+
+  public show ( ...keys:string[] ):void {
+  
+    if ( keys.length === 0 ) {
+      return this.hide ( ...Object.keys(this.config.mapping) )
+    } else {
+      keys.forEach ( key => this.updateGlobalsViewState ( key, ViewState.visible ) )
+    }
+
+  }
+
+  public updateGlobalsViewState ( key:string, viewState:ViewState ) {
+
+    this._viewStateEmitter.emit ( {
+      state: viewState,
+      key
+    } )
+
+  }
+
+  public observeViewStateFor ( key:string ):Observable<ViewState> {
+
+    return this._viewStateEmitter.filter ( change => change.key === key ).map ( change => change.state )
+
+  }
 
 }

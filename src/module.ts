@@ -5,10 +5,12 @@ import { KioCtnModule } from 'kio-ng2-ctn'
 import { KioNg2i18nModule } from 'kio-ng2-i18n'
 import { KioNg2ComponentRoutingModule } from 'kio-ng2-component-routing'
 
-import { GlobalsConfig, GlobalsMapping } from './interfaces/GlobalsConfig'
-import { GLOBALS_CONFIG } from './injection/GlobalsConfig.token'
+import { GlobalsConfig, GlobalsMapping } from './interfaces/globals-config'
+import { GLOBALS_CONFIG } from './injection/globals-config.token'
 import { GlobalsService } from './services/globals.service'
 import { GlobalsComponent } from './components/content/content.component'
+
+export { GlobalsService } from './services/globals.service'
 
 @NgModule({
   imports: [
