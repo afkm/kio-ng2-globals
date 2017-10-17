@@ -17,6 +17,8 @@
 		"deploy:release": "rm -rf ./release; mv ./build release",
 		"transpile": "npm run ngModule:build",
 		"ngModule:build": "./scripts/ngModule.sh build",
+		"sync:dev": "./scripts/sync_to.sh ../../digit-rfn && ./scripts/sync_to.sh ../kio-ng2-navigation",
+		"sync:dev:watch": "./scripts/watch.sh sync:dev",
 		"build": "npm run ngModule:build",
 		"build:release": "NODE_ENV=production npm run build",
 		"build:release:watch": "./scripts/watch.sh build:release"

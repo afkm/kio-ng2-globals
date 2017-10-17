@@ -2,4 +2,4 @@
   <h4>{{ globalsKey }}</h4>
   <small>{{ publicationModel?.cuid }}</small>
 </div> -->
-<component-router *ngIf="!!publicationModel" [node]="publicationModel"></component-router>
+<component-router *ngIf="!!publicationModel" [node]="publicationModel" [hidden]="(viewState | async) === 0"></component-router>
