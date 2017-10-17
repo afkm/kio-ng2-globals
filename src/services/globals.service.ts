@@ -81,7 +81,7 @@ export class GlobalsService {
   public show ( ...keys:string[] ):void {
   
     if ( keys.length === 0 ) {
-      return this.hide ( ...Object.keys(this.config.mapping) )
+      return this.show ( ...Object.keys(this.config.mapping) )
     } else {
       keys.forEach ( key => this.updateGlobalsViewState ( key, ViewState.visible ) )
     }
