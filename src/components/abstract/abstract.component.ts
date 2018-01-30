@@ -1,14 +1,16 @@
 import { Inject, OnDestroy, Input, SimpleChanges, SimpleChange } from '@angular/core'
 import { GlobalsService } from '../../services/globals.service'
 import { GlobalsConfig, GlobalsMapping } from '../../interfaces/globals-config'
+import { GlobalsKeyType } from '../../types/globals-key'
+
 import { KioPublicationModel } from 'kio-ng2-data'
 import { LocaleService } from 'kio-ng2-i18n'
 
 
-export class AbstractGlobalsComponent<T extends GlobalsMapping> implements OnDestroy {
+export class AbstractGlobalsComponent<T extends GlobalsKeyType> implements OnDestroy {
 
 
-  @Input() globalsKey:keyof T
+  @Input() globalsKey:T
 
   public publicationModel:KioPublicationModel
   
@@ -30,9 +32,9 @@ export class AbstractGlobalsComponent<T extends GlobalsMapping> implements OnDes
     this.publicationModel = publicationModel
   }
 
-  private _key:keyof T
+  private _key:T
 
-  protected updateKey ( key:keyof T ) {
+  protected updateKey ( key:T ) {
     this.globalsService.resolveGlobalsWithKey(key).subscribe ( (publicationModel:KioPublicationModel) => {
       this.applyModel ( publicationModel )
     } )

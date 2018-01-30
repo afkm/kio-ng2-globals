@@ -6,8 +6,9 @@ import { KioPublicationModel, KioPublicationQuery } from 'kio-ng2-data'
 import { GlobalsConfig, GlobalsMapping } from '../interfaces/globals-config'
 import { ViewStateChange } from '../interfaces/view-state-change'
 import { GLOBALS_CONFIG } from '../injection/globals-config.token'
-
+import { GlobalsUnveilingResolver } from '../resolvers/globals-unveiling-resolver'
 import { ViewState } from '../enums/view-state.enum'
+import { GlobalsKeyType } from '../types/globals-key'
 
 
 const DELAY_OFFSET = 3000
@@ -18,16 +19,11 @@ export class GlobalsService {
 
   constructor(
       @Inject(GLOBALS_CONFIG) protected config:GlobalsConfig<GlobalsMapping>,
+      @Inject(GlobalsUnveilingResolver) protected globalsUnveilingResolver:GlobalsUnveilingResolver<KioPublicationModel>,
       protected backendService:BackendService
     ){
-    if ( 'number' === typeof config.initialDelay ) {
-      this._resolveDelay = config.initialDelay
-    } else {
-      this._resolveDelay = DELAY_OFFSET
-    }
+    
   }
-
-  private _resolveDelay:number
 
   private _viewStateEmitter:EventEmitter<ViewStateChange>=new EventEmitter()
 
@@ -43,14 +39,10 @@ export class GlobalsService {
   }
 
 
-  public resolveGlobalsWithKey ( key:string ):Observable<KioPublicationModel> {
-    this._resolveDelay += DELAY_STEP
-
+  public resolveGlobalsWithKey ( key:GlobalsKeyType ):Observable<KioPublicationModel> {
     let source = this.resolveGlobalsCuidWithKey(key)
-    if ( key !== 'intro' ) {
-      source = source.delay ( this._resolveDelay )
-    }
-    return source.concatMap ( cuid => {
+    
+    const globalsSource = source.concatMap ( cuid => {
       if ( !cuid ) {
         return Observable.throw ( new Error(`No cuid set for globals key "${key}".`) )
       }
@@ -63,7 +55,9 @@ export class GlobalsService {
     } ).map ( response => {
       const model = new KioPublicationModel(response.data)
       return model
-    } )    
+    } )
+
+    return this.globalsUnveilingResolver.resolve(key,globalsSource)
   }
 
 
