@@ -9,6 +9,9 @@ import { GlobalsConfig, GlobalsMapping } from './interfaces/globals-config'
 import { GLOBALS_CONFIG } from './injection/globals-config.token'
 import { GlobalsService } from './services/globals.service'
 import { GlobalsComponent } from './components/content/content.component'
+import { GlobalsUnveilingResolver } from './resolvers/globals-unveiling-resolver'
+export { GlobalsUnveilingResolver } from './resolvers/globals-unveiling-resolver'
+
 
 export { GlobalsService } from './services/globals.service'
 
@@ -29,7 +32,8 @@ export { GlobalsService } from './services/globals.service'
       useValue: {
         mapping: {}
       }
-    },    
+    },
+    GlobalsUnveilingResolver,    
     GlobalsService
   ],
   exports: [

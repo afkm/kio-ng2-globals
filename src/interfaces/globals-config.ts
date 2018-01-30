@@ -1,5 +1,7 @@
-export interface GlobalsMapping {
-  [key: string]: string
+import { GlobalsKeyType } from '../types/globals-key'
+
+export type GlobalsMapping = {
+  [K in GlobalsKeyType]: string
 }
 
 export interface GlobalsConfig <T extends GlobalsMapping> {
