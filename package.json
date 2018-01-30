@@ -1,6 +1,6 @@
 {
 	"name": "kio-ng2-globals",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "globals module for kio ng2 projects",
 	"main": "./src/module.ts",
 	"module": "./src/module.ts",
