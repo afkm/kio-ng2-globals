@@ -7,6 +7,7 @@ export enum GlobalsKey {
   nba,
   social,
   sponsoring,
-  copyrights
+  copyrights,
+  chapterCovers
 
 }
